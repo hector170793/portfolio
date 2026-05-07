@@ -1,0 +1,45 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.4.14/schema.json",
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "correctness": {
+        "noUnusedVariables": "error",
+        "noUnusedImports": "error"
+      },
+      "suspicious": {
+        "noExplicitAny": "error"
+      },
+      "style": {
+        "useConst": "error",
+        "useImportType": "error"
+      },
+      "a11y": {
+        "recommended": true,
+        "useValidAriaProps": "error",
+        "noSvgWithoutTitle": "warn",
+        "useKeyWithClickEvents": "error",
+        "useFocusableInteractive": "error",
+        "useAriaPropsForRole": "error",
+        "noNoninteractiveTabindex": "error"
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "trailingCommas": "all",
+      "semicolons": "always"
+    }
+  },
+  "files": {
+    "includes": ["**", "!node_modules", "!.next", "!.velite", "!public"]
+  }
+}

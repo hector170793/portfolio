@@ -1,0 +1,40 @@
+{
+  "name": "portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "biome lint .",
+    "lint:ci": "biome ci .",
+    "format": "biome format --write .",
+    "biome": "biome check --write .",
+    "typecheck": "tsc --noEmit",
+    "prepare": "lefthook install",
+    "size-limit": "size-limit"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.2.4",
+    "next": "16.2.5",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "tailwindcss": "^4.2.4"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.14",
+    "@next/bundle-analyzer": "^16.2.5",
+    "@size-limit/file": "^12.1.0",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "lefthook": "^2.1.6",
+    "size-limit": "^12.1.0",
+    "typescript": "^5"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "sharp"
+    ]
+  }
+}
