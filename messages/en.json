@@ -1,0 +1,109 @@
+{
+  "skipLink": "Skip to main content",
+  "header": {
+    "nav": {
+      "work": "Work",
+      "journal": "Journal",
+      "about": "About",
+      "contact": "Contact"
+    },
+    "toggleTheme": "Toggle theme",
+    "toggleLocale": "Cambiar a Español"
+  },
+  "footer": {
+    "copyright": "© {year} Hector Reyes Pérez. All rights reserved.",
+    "builtWith": "Built with Next.js, Tailwind, and plenty of coffee.",
+    "signupCta": "Get notified about new writing"
+  },
+  "hero": {
+    "name": "Hector Reyes Pérez",
+    "headline": "Senior Full-Stack Engineer & Frontend Lead",
+    "subtitle": "I build high-impact digital products. Fintech, platforms, and LATAM-focused development.",
+    "ctaPrimary": "Let's talk",
+    "metric1": "30k onboardings/month, Santander",
+    "metric2": "4 products in production",
+    "metric3": "8+ years of experience"
+  },
+  "about": {
+    "title": "About",
+    "bodyParagraph1": "I started my career in hardware before pivoting to frontend when I realized software has an unmatched impact radius. Since then I've been building interfaces and systems that scale.",
+    "bodyParagraph2": "I work as a Senior Full-Stack Engineer specializing in React/Next.js, Angular, and Node.js/NestJS ecosystems. I care deeply about clean architecture, accessibility, and performance.",
+    "bodyParagraph3": "Currently open to consulting, contract work, and full-time positions on teams where technical excellence is the baseline."
+  },
+  "capabilities": {
+    "title": "Capabilities",
+    "group1": "Frontend",
+    "group2": "Backend",
+    "group3": "Architecture",
+    "group4": "Tooling & DevOps"
+  },
+  "journal": {
+    "empty": {
+      "title": "Coming soon",
+      "subtitle": "I'm working on the first post. Subscribe to get notified when it's published."
+    },
+    "index": {
+      "heading": "Journal",
+      "readingTime": "{minutes} min read"
+    },
+    "signupTitle": "Stay updated",
+    "signupCta": "Get notified about new writing",
+    "signupConfirm": "Done. Check your inbox to confirm.",
+    "signupDuplicate": "You're already on the list."
+  },
+  "contact": {
+    "title": "Send me a brief",
+    "subtitle": "Tell me about your project and I'll get back to you within 48 hours.",
+    "fields": {
+      "name": {
+        "label": "Name",
+        "placeholder": "Your name",
+        "errorRequired": "Name is required.",
+        "errorInvalid": "Please enter a valid name."
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "you@example.com",
+        "errorRequired": "Email is required.",
+        "errorInvalid": "Please enter a valid email."
+      },
+      "company": {
+        "label": "Company (optional)",
+        "placeholder": "Your company",
+        "errorRequired": "",
+        "errorInvalid": ""
+      },
+      "projectType": {
+        "label": "Project type",
+        "placeholder": "Select an option",
+        "errorRequired": "Please select a project type.",
+        "errorInvalid": "Invalid option."
+      },
+      "message": {
+        "label": "Message",
+        "placeholder": "Tell me about your project...",
+        "errorRequired": "Message is required.",
+        "errorInvalid": "Message must be at least 10 characters."
+      }
+    },
+    "submit": "Send brief",
+    "submitLoading": "Sending...",
+    "success": "Got your message. I'll be in touch soon.",
+    "errors": {
+      "validation": "Please review the form fields.",
+      "turnstile": "Verification failed — please try again.",
+      "send": "Failed to send. Please try again in a few minutes.",
+      "unknown": "An unexpected error occurred. Please try again."
+    }
+  },
+  "caseStudy": {
+    "nextProject": "Next project",
+    "chapters": {
+      "brief": "Brief",
+      "approach": "Approach",
+      "solution": "Solution",
+      "outcome": "Outcome",
+      "stack": "Stack"
+    }
+  }
+}

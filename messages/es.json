@@ -1,0 +1,109 @@
+{
+  "skipLink": "Ir al contenido principal",
+  "header": {
+    "nav": {
+      "work": "Proyectos",
+      "journal": "Blog",
+      "about": "Sobre mí",
+      "contact": "Contacto"
+    },
+    "toggleTheme": "Cambiar tema",
+    "toggleLocale": "Switch to English"
+  },
+  "footer": {
+    "copyright": "© {year} Hector Reyes Pérez. Todos los derechos reservados.",
+    "builtWith": "Construido con Next.js, Tailwind y mucho café.",
+    "signupCta": "Recibí novedades sobre nuevos artículos"
+  },
+  "hero": {
+    "name": "Hector Reyes Pérez",
+    "headline": "Senior Full-Stack Engineer & Frontend Lead",
+    "subtitle": "Construyo productos digitales de alto impacto. Fintech, plataformas y desarrollo orientado a LATAM.",
+    "ctaPrimary": "Hablemos",
+    "metric1": "30k onboardings/mes, Santander",
+    "metric2": "4 productos en producción",
+    "metric3": "+8 años de experiencia"
+  },
+  "about": {
+    "title": "Sobre mí",
+    "bodyParagraph1": "Empecé mi carrera en hardware antes de pivotar al frontend cuando me di cuenta de que el software tiene un alcance de impacto incomparable. Desde entonces construyo interfaces y sistemas que escalan.",
+    "bodyParagraph2": "Trabajo como Senior Full-Stack Engineer con especialización en ecosistemas React/Next.js, Angular y Node.js/NestJS. Me apasionan la arquitectura limpia, la accesibilidad y el rendimiento.",
+    "bodyParagraph3": "Actualmente abierto a proyectos de consultoría, contratos y posiciones full-time en equipos donde la excelencia técnica importa."
+  },
+  "capabilities": {
+    "title": "Capacidades",
+    "group1": "Frontend",
+    "group2": "Backend",
+    "group3": "Arquitectura",
+    "group4": "Tooling & DevOps"
+  },
+  "journal": {
+    "empty": {
+      "title": "Próximamente",
+      "subtitle": "Estoy trabajando en el primer artículo. Suscribite para recibir una notificación cuando esté publicado."
+    },
+    "index": {
+      "heading": "Blog",
+      "readingTime": "{minutes} min de lectura"
+    },
+    "signupTitle": "Recibí novedades",
+    "signupCta": "Recibí novedades sobre nuevos artículos",
+    "signupConfirm": "Listo. Revisá tu bandeja de entrada para confirmar.",
+    "signupDuplicate": "Ya estás en la lista."
+  },
+  "contact": {
+    "title": "Mandame un brief",
+    "subtitle": "Contame de tu proyecto y te respondo en menos de 48 horas.",
+    "fields": {
+      "name": {
+        "label": "Nombre",
+        "placeholder": "Tu nombre",
+        "errorRequired": "El nombre es obligatorio.",
+        "errorInvalid": "Ingresá un nombre válido."
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "vos@ejemplo.com",
+        "errorRequired": "El email es obligatorio.",
+        "errorInvalid": "Ingresá un email válido."
+      },
+      "company": {
+        "label": "Empresa (opcional)",
+        "placeholder": "Tu empresa",
+        "errorRequired": "",
+        "errorInvalid": ""
+      },
+      "projectType": {
+        "label": "Tipo de proyecto",
+        "placeholder": "Seleccioná una opción",
+        "errorRequired": "Seleccioná el tipo de proyecto.",
+        "errorInvalid": "Opción inválida."
+      },
+      "message": {
+        "label": "Mensaje",
+        "placeholder": "Contame sobre tu proyecto...",
+        "errorRequired": "El mensaje es obligatorio.",
+        "errorInvalid": "El mensaje debe tener al menos 10 caracteres."
+      }
+    },
+    "submit": "Enviar brief",
+    "submitLoading": "Enviando...",
+    "success": "Recibí tu mensaje. Te respondo pronto.",
+    "errors": {
+      "validation": "Revisá los campos del formulario.",
+      "turnstile": "Verificación fallida. Por favor intentá de nuevo.",
+      "send": "Error al enviar. Intentá de nuevo en unos minutos.",
+      "unknown": "Ocurrió un error inesperado. Por favor intentá de nuevo."
+    }
+  },
+  "caseStudy": {
+    "nextProject": "Siguiente proyecto",
+    "chapters": {
+      "brief": "Brief",
+      "approach": "Enfoque",
+      "solution": "Solución",
+      "outcome": "Resultados",
+      "stack": "Stack"
+    }
+  }
+}
