@@ -22,6 +22,7 @@ import Script from 'next/script';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import type { ReactNode } from 'react';
+import { AnimationProviders } from '@/components/animation/AnimationProviders';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import SkipLink from '@/components/SkipLink';
@@ -115,19 +116,30 @@ export default async function LocaleLayout({ children, params }: Props) {
       </head>
       <body>
         <ThemeProvider>
-          <NextIntlClientProvider messages={messages}>
-            {/* [spec 8.1] SkipLink MUST be first focusable element on every page */}
-            <SkipLink />
+          {/*
+           * AnimationProviders: Client Component shell that wraps LenisProvider
+           * and GrainOverlay via dynamic({ssr:false}). Turbopack requires
+           * dynamic({ssr:false}) to live inside a "use client" boundary — this
+           * wrapper is that boundary. [spec 10.4] [design §3.5]
+           *
+           * Wrap order: ThemeProvider > AnimationProviders > LenisProvider >
+           * NextIntlClientProvider > SkipLink, Header, main, Footer. [design §3.5]
+           */}
+          <AnimationProviders>
+            <NextIntlClientProvider messages={messages}>
+              {/* [spec 8.1] SkipLink MUST be first focusable element on every page */}
+              <SkipLink />
 
-            {/* [design §3.5] Header is Client (scroll-spy + ThemeToggle + LocaleToggle) */}
-            <Header journalEnabled={isJournalEnabled} />
+              {/* [design §3.5] Header is Client (scroll-spy + ThemeToggle + LocaleToggle) */}
+              <Header journalEnabled={isJournalEnabled} />
 
-            {/* [spec 8.5] <main id="main-content"> — skip link target [design §12.1] */}
-            <main id="main-content">{children}</main>
+              {/* [spec 8.5] <main id="main-content"> — skip link target [design §12.1] */}
+              <main id="main-content">{children}</main>
 
-            {/* [design §3.5] Footer is Server Component */}
-            <Footer />
-          </NextIntlClientProvider>
+              {/* [design §3.5] Footer is Server Component */}
+              <Footer />
+            </NextIntlClientProvider>
+          </AnimationProviders>
         </ThemeProvider>
       </body>
     </html>
