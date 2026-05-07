@@ -1,1 +1,183 @@
 @import "tailwindcss";
+
+/* ============================================================
+   LAYER: tokens
+   Design tokens for the portfolio editorial design system.
+   [design §2.2] — exact hex values from contrast validation
+   [spec 6.4]    — CSS custom properties on <html> class
+   ============================================================ */
+
+@layer base {
+  /* ── Color tokens ─────────────────────────────────────────
+     Dark mode (default — editorial off-black aesthetic)
+     [design §2.2] [spec 6.1] [spec 6.2]
+  ─────────────────────────────────────────────────────────── */
+  :root,
+  .dark {
+    --background: #0a0a0a; /* off-black */
+    --foreground: #ede7da; /* warm white */
+    --muted: #1a1a1a; /* surface +1 */
+    --muted-foreground: #9a9489; /* low-emphasis text — 4.62:1 on #0A0A0A */
+    --border: #2a2724; /* hairlines — decorative only */
+    --accent-base: #1e47b8; /* cobalto signature — decorative [design §2.1] */
+    --accent-text: #4b7be6; /* cobalto AA-safe text on dark — 4.97:1 actual [design §2.1 corrected: #3D6BE0 was 4.13:1, not 6.51:1] */
+    --accent-fg: #ffffff; /* fg on cobalto button */
+    --grain-opacity: 0.05;
+    --backdrop-blur: 12px;
+  }
+
+  /* ── Light mode ────────────────────────────────────────────
+     [design §2.2] [spec 6.1] [spec 6.3]
+     cream/ink editorial — NOT plain white [spec 6.1]
+  ─────────────────────────────────────────────────────────── */
+  .light {
+    --background: #faf7f2; /* cream */
+    --foreground: #15120e; /* warm ink */
+    --muted: #f1ece3; /* cream +1 */
+    --muted-foreground: #6b655b; /* 4.71:1 on #FAF7F2 */
+    --border: #ddd5c8; /* hairlines */
+    --accent-base: #1e47b8; /* same brand cobalto */
+    --accent-text: #1b3d9c; /* deeper cobalt — 9.84:1 on cream [design §2.1] */
+    --accent-fg: #faf7f2; /* fg on cobalto button */
+    --grain-opacity: 0.04;
+    --backdrop-blur: 12px;
+  }
+
+  /* ── Reduced transparency [spec 8.9] [design §2.2] ──────── */
+  @media (prefers-reduced-transparency: reduce) {
+    :root,
+    .dark,
+    .light {
+      --grain-opacity: 0;
+      --backdrop-blur: 0px;
+    }
+  }
+
+  /* ── Typography fluid ramp [design §2.3] ──────────────────
+     clamp(min, preferred, max) — mobile-first fluid scaling
+  ─────────────────────────────────────────────────────────── */
+  :root {
+    /* Font family variables — set by next/font in layout.tsx [design §2.3] */
+    --font-display: var(--font-fraunces, Georgia, serif);
+    --font-body: var(--font-inter, system-ui, sans-serif);
+    --font-mono: var(--font-jbmono, "Courier New", monospace);
+
+    /* Fluid type scale */
+    --fs-hero: clamp(3.25rem, 4vw + 2.25rem, 7.5rem);
+    --fs-h1: clamp(2.25rem, 2vw + 1.75rem, 4.5rem);
+    --fs-h2: clamp(1.75rem, 1.2vw + 1.5rem, 3rem);
+    --fs-h3: clamp(1.375rem, 0.8vw + 1.25rem, 2rem);
+    --fs-body: clamp(1rem, 0.4vw + 0.875rem, 1.125rem);
+    --fs-small: clamp(0.8125rem, 0px + 0.8125rem, 0.875rem);
+    --fs-mono: clamp(0.8125rem, 0px + 0.8125rem, 0.9375rem);
+
+    /* Line heights */
+    --lh-hero: 0.94;
+    --lh-h1: 1.04;
+    --lh-h2: 1.12;
+    --lh-h3: 1.22;
+    --lh-body: 1.6;
+    --lh-small: 1.5;
+    --lh-mono: 1.45;
+
+    /* Letter spacing */
+    --ls-hero: -0.03em;
+    --ls-h1: -0.025em;
+    --ls-h2: -0.02em;
+    --ls-body: -0.005em;
+    --ls-mono: 0;
+
+    /* ── Radius scale [design §2.5] ──────────────────────────
+       Minimal radius — editorial/print aesthetic (sharp corners)
+    ─────────────────────────────────────────────────────────── */
+    --radius-none: 0;
+    --radius-xs: 2px; /* form inputs, focus rings */
+    --radius-sm: 4px; /* buttons, cards */
+    --radius-md: 6px; /* dropdown menus */
+    --radius-pill: 9999px; /* tag chips ONLY */
+
+    /* ── Shadows [design §2.6] ───────────────────────────────
+       NO drop shadows on cards/buttons (editorial aesthetic).
+       Single overlay token for modal/menu elevation only.
+    ─────────────────────────────────────────────────────────── */
+    --shadow-overlay: 0 12px 32px -8px rgba(0, 0, 0, 0.4);
+
+    /* ── Z-index layering [design §2.7] ──────────────────────
+       0  = base flow
+       10 = sticky header
+       20 = page transition curtain
+       30 = ThemeToggle overlay (FM fallback)
+       40 = modal/dialog (reserved)
+       50 = SplashLoader
+       60 = CustomCursor
+       70 = skip-link (focusable above splash)
+    ─────────────────────────────────────────────────────────── */
+    --z-header: 10;
+    --z-page-transition: 20;
+    --z-theme-overlay: 30;
+    --z-modal: 40;
+    --z-splash: 50;
+    --z-cursor: 60;
+    --z-skip-link: 70;
+
+    /* ── View Transitions coordinate props [design §4.4] ─────
+       Set dynamically by ThemeToggle before startViewTransition
+    ─────────────────────────────────────────────────────────── */
+    --vt-x: 50%;
+    --vt-y: 50%;
+  }
+
+  /* ── Focus visible [design §12.2] [spec 8.2] ─────────────
+     Cobalto 2px outline on keyboard focus.
+     Removes default :focus ring, shows only on :focus-visible.
+  ─────────────────────────────────────────────────────────── */
+  *:focus {
+    outline: none;
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--accent-base);
+    outline-offset: 2px;
+    border-radius: var(--radius-xs);
+  }
+}
+
+/* ============================================================
+   KEYFRAMES
+   [design §4.4] circle-reveal for View Transitions theme toggle
+   [design §4 — Marquee row] infinite marquee for work tags
+   ============================================================ */
+
+/* Theme toggle View Transitions circle expand [design §4.4] [spec 6.6] */
+@keyframes circle-reveal {
+  to {
+    clip-path: circle(150% at var(--vt-x) var(--vt-y));
+  }
+}
+
+/* Marquee infinite horizontal scroll [design §4 — Marquee] [spec 1.7] */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ── View Transition: incoming snapshot uses circle-reveal ─── */
+::view-transition-new(root) {
+  animation: circle-reveal 480ms cubic-bezier(0.16, 1, 0.3, 1);
+  clip-path: circle(0 at var(--vt-x) var(--vt-y));
+}
+
+/* ── Reduced motion: disable all view transitions [spec 7.7] ─ */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-image-pair(*),
+  ::view-transition-new(*),
+  ::view-transition-old(*) {
+    /* biome-ignore lint/complexity/noImportantStyles: required to override ::view-transition-new(root) at same specificity [spec 7.7] */
+    animation: none !important;
+  }
+}

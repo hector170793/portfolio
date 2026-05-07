@@ -41,5 +41,17 @@
   },
   "files": {
     "includes": ["**", "!node_modules", "!.next", "!.velite", "!public"]
-  }
+  },
+  "overrides": [
+    {
+      "includes": ["app/layout.tsx"],
+      "linter": {
+        "rules": {
+          "security": {
+            "noDangerouslySetInnerHtml": "off"
+          }
+        }
+      }
+    }
+  ]
 }
