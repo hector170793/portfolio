@@ -1,6 +1,11 @@
 import withBundleAnalyzer from '@next/bundle-analyzer';
 import type { NextConfig } from 'next';
+import createNextIntlPlugin from 'next-intl/plugin';
 import { build } from 'velite';
+
+// [design §5] next-intl plugin wires getRequestConfig to the build and SSG phases.
+// Points to i18n.ts at project root (default path: './i18n.ts').
+const withNextIntl = createNextIntlPlugin('./i18n.ts');
 
 const nextConfig: NextConfig = {
   // Empty turbopack config to silence the webpack+turbopack conflict warning in Next 16.
@@ -34,4 +39,4 @@ const nextConfig: NextConfig = {
 
 export default withBundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
-})(nextConfig);
+})(withNextIntl(nextConfig));

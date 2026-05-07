@@ -15,7 +15,8 @@
         "noUnusedImports": "error"
       },
       "suspicious": {
-        "noExplicitAny": "error"
+        "noExplicitAny": "error",
+        "noDocumentCookie": "warn"
       },
       "style": {
         "useConst": "error",
@@ -40,11 +41,11 @@
     }
   },
   "files": {
-    "includes": ["**", "!node_modules", "!.next", "!.velite", "!public"]
+    "includes": ["**", "!node_modules", "!.next", "!.velite", "!public", "!next-env.d.ts"]
   },
   "overrides": [
     {
-      "includes": ["app/layout.tsx"],
+      "includes": ["app/layout.tsx", "app/\\[locale\\]/layout.tsx"],
       "linter": {
         "rules": {
           "security": {
