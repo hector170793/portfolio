@@ -9,14 +9,16 @@
  * animation providers. It is itself imported normally (not dynamically) in
  * [locale]/layout.tsx — its `"use client"` boundary is the isolation point.
  *
- * [spec 10.4] — GSAP, Lenis, SplashLoader, CustomCursor must NOT appear in the
- * initial bundle. The `dynamic({ssr:false})` calls here ensure they are only
- * loaded in async chunks after first paint.
+ * [spec 10.4] — GSAP, Lenis, SplashLoader, CustomCursor, PageTransition must NOT
+ * appear in the initial bundle. The `dynamic({ssr:false})` calls here ensure they
+ * are only loaded in async chunks after first paint.
  *
  * [design §3.5] — JSX order: LenisProvider wraps children, GrainOverlay is
  * a sibling after the main content tree.
  * [task 6B.7] — SplashLoader renders first (covers boot), CustomCursor renders
  * last (always above content, z-index 60). [design §2.7]
+ * [task 12.1] — PageTransition wraps children inside LenisProvider so route-change
+ * curtain fires on every navigation. z-index 20. [design §3.1] [design §2.7]
  */
 
 import dynamic from 'next/dynamic';
@@ -45,6 +47,18 @@ const SplashLoader = dynamic(() => import('@/components/animation/SplashLoader')
 });
 
 /**
+ * PageTransition — FM AnimatePresence curtain on route change.
+ * [spec 7.4.D.1] [design §3.1] [design §4, D.1]
+ * Wraps {children} inside LenisProvider — key={pathname} triggers new animation
+ * on every route change. z-index 20 (page transition curtain layer). [design §2.7]
+ * Loaded dynamic({ssr:false}) — FM uses browser APIs; no SSR needed. [spec 10.4]
+ */
+const PageTransition = dynamic(() => import('@/components/animation/PageTransition'), {
+  ssr: false,
+  loading: () => null,
+});
+
+/**
  * CustomCursor — replaces OS cursor on desktop/mouse devices.
  * [spec 7.5.E.1] [spec 7.6] [design §3.1]
  * Renders LAST — always above content. z-index 60. [design §2.7]
@@ -60,12 +74,12 @@ interface AnimationProvidersProps {
 }
 
 /**
- * Shell that wraps app content with Lenis, GrainOverlay, SplashLoader, and CustomCursor.
- * Used in [locale]/layout.tsx inside ThemeProvider.
+ * Shell that wraps app content with Lenis, PageTransition, GrainOverlay,
+ * SplashLoader, and CustomCursor. Used in [locale]/layout.tsx inside ThemeProvider.
  *
  * Render order (by z-index intent):
  *   1. SplashLoader (z:50) — shown during boot, unmounts after load
- *   2. LenisProvider > children — page content
+ *   2. LenisProvider > PageTransition > children — smooth scroll + route transitions
  *   3. GrainOverlay (z:0) — fixed decorative texture
  *   4. CustomCursor (z:60) — floating above everything [design §2.7]
  */
@@ -79,7 +93,15 @@ export function AnimationProviders({ children }: AnimationProvidersProps): React
        */}
       <SplashLoader />
 
-      <LenisProvider>{children}</LenisProvider>
+      <LenisProvider>
+        {/*
+         * PageTransition: FM AnimatePresence curtain on route change.
+         * [task 12.1] [spec 7.4.D.1] [design §3.1 PageTransition]
+         * Placed inside LenisProvider so scroll context is preserved across transitions.
+         * z-index 20 (page transition curtain layer). [design §2.7]
+         */}
+        <PageTransition>{children}</PageTransition>
+      </LenisProvider>
 
       {/*
        * GrainOverlay is outside LenisProvider — no scroll dependency.
