@@ -1,6 +1,7 @@
 [
   {
-    "path": ".next/static/chunks/main-*.js",
+    "name": "Turbopack runtime [spec 10.3 — Turbopack deviation: no main-*.js; using turbopack-*.js runtime check]",
+    "path": ".next/static/chunks/turbopack-*.js",
     "limit": "100 KB",
     "gzip": true
   }

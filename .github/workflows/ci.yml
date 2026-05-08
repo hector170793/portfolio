@@ -1,0 +1,92 @@
+# .github/workflows/ci.yml — CI pipeline for portfolio-v1.
+# [design §13.4] quality → e2e → size jobs.
+# [spec 11.7] pnpm build MUST pass before any deploy.
+# [spec 11.8] pnpm lint (Biome) MUST pass clean.
+# [spec 8.11] axe E2E a11y gate (zero critical/serious violations).
+# [spec 10.3] size-limit gate (Turbopack — see .size-limit.json for deviation note).
+#
+# CI env vars for Turnstile always-pass test keys (Cloudflare documented):
+#   NEXT_PUBLIC_TURNSTILE_SITE_KEY: 1x00000000000000000000AA
+#   TURNSTILE_SECRET_KEY:           1x0000000000000000000000000000000AA
+# These never call a real Cloudflare endpoint for verification — always succeed.
+# RESEND_API_KEY: left blank in CI; contact form E2E skips the actual send.
+
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  quality:
+    name: Quality Gate (lint, typecheck, unit tests, build, size-limit)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Biome CI (lint + format check)
+        run: pnpm exec biome ci .
+
+      - name: TypeScript check
+        run: pnpm tsc --noEmit
+
+      - name: Unit tests (vitest)
+        run: pnpm test --run
+
+      - name: Build
+        run: pnpm build
+        env:
+          # Turnstile always-pass test keys — safe to commit, documented by Cloudflare.
+          NEXT_PUBLIC_TURNSTILE_SITE_KEY: 1x00000000000000000000AA
+          TURNSTILE_SECRET_KEY: 1x0000000000000000000000000000000AA
+          # Required for sitemap and OG URL generation at build time.
+          NEXT_PUBLIC_SITE_URL: https://hector-reyes.work
+
+      - name: Bundle size gate (size-limit)
+        # [spec 10.3] Fails if any matched chunk exceeds 100 KB gz.
+        # Turbopack deviation: targets turbopack-*.js runtime (see .size-limit.json).
+        run: pnpm size-limit
+
+  e2e:
+    name: E2E Tests (Playwright — chromium)
+    runs-on: ubuntu-latest
+    needs: quality
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browsers (chromium only on CI for speed)
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run E2E tests
+        run: pnpm test:e2e --project=chromium
+        env:
+          CI: true
+          # Turnstile always-pass test keys for contact form E2E [spec 4.1, task 14.10].
+          NEXT_PUBLIC_TURNSTILE_SITE_KEY: 1x00000000000000000000AA
+          TURNSTILE_SECRET_KEY: 1x0000000000000000000000000000000AA
+          NEXT_PUBLIC_SITE_URL: https://hector-reyes.work
