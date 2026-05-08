@@ -50,10 +50,10 @@ export default function PageTransition({ children }: PageTransitionProps): React
         <motion.div
           key={pathname}
           initial={{ opacity: 0 }}
-          animate={{ opacity: [0, 0.85, 0] }}
+          animate={{ opacity: [0, 0.95, 0] }}
           transition={{
-            duration: 0.32,
-            times: [0, 0.45, 1],
+            duration: 0.4,
+            times: [0, 0.5, 1],
             ease: 'easeInOut',
           }}
           style={{
