@@ -84,6 +84,18 @@ pnpm lefthook install
 
 ---
 
+## Pre-launch checklist
+
+See [`LAUNCH.md`](./LAUNCH.md) for the step-by-step pre-launch checklist covering:
+- Cloudflare DNS configuration
+- Vercel project setup and environment variables
+- Resend domain verification (SPF/DKIM/DMARC)
+- Cloudflare Turnstile widget setup
+- www redirect, resume PDF upload, and post-launch profile updates
+- Full pre-go-live smoke commands
+
+---
+
 ## Deploy
 
 The site is deployed to [Vercel](https://vercel.com).
