@@ -46,9 +46,37 @@
     "group1": "Frontend",
     "group2": "Backend",
     "group3": "Arquitectura",
-    "group4": "Tooling & DevOps"
+    "group4": "Tooling & DevOps",
+    "groups": {
+      "frontend": {
+        "label": "Frontend",
+        "skills": ["Angular", "React", "Next.js", "TypeScript", "Vue", "Nuxt"]
+      },
+      "backend": {
+        "label": "Backend",
+        "skills": ["NestJS", "Node.js", "REST APIs", "GraphQL", "PostgreSQL"]
+      },
+      "architecture": {
+        "label": "Arquitectura",
+        "skills": [
+          "Hexagonal Architecture",
+          "DDD",
+          "Monorepo",
+          "Atomic Design",
+          "Clean Architecture"
+        ]
+      },
+      "tooling": {
+        "label": "Tooling & DevOps",
+        "skills": ["Biome", "Docker", "Vercel", "CI/CD", "pnpm", "Turborepo"]
+      }
+    }
   },
   "journal": {
+    "preview": {
+      "heading": "Escritura",
+      "viewAll": "Ver todo"
+    },
     "empty": {
       "title": "Próximamente",
       "subtitle": "Estoy trabajando en el primer artículo. Suscribite para recibir una notificación cuando esté publicado."
@@ -121,5 +149,11 @@
     "title": "Proyectos seleccionados",
     "tagsSrLabel": "Tecnologías del proyecto",
     "viewProject": "Ver proyecto"
+  },
+  "contactCta": {
+    "heading": "Mandame un brief.",
+    "subtitle": "Contame de tu proyecto y arranquemos.",
+    "primary": "Ir al formulario de contacto",
+    "secondary": "hector170793@gmail.com"
   }
 }

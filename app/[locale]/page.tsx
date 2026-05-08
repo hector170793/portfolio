@@ -1,20 +1,27 @@
 /**
  * Home page — app/[locale]/page.tsx
  * [spec 1.1] Home page renders at /[locale]/ and contains sections in order:
- *            Hero → Selected Work → About → Capabilities → Contact CTA.
- * [spec 8.5] All section anchors present for scroll-spy [spec 1.13] and nav links.
- * [spec 9.1] Exports generateMetadata via buildMetadata factory [design §10.5].
+ *            Hero → Selected Work → About → Capabilities → Journal Preview (conditional) → Contact CTA.
+ * [spec 8.5]  All section anchors present for scroll-spy [spec 1.13] and nav links.
+ * [spec 9.1]  Exports generateMetadata via buildMetadata factory [design §10.5].
+ * [spec 9.4]  JSON-LD Person + WebSite schemas injected for home page.
  * [spec 10.7] SSG — setRequestLocale enables static rendering.
  *
- * Slice 7A implements: Hero + SelectedWork.
- * Slice 7B stubs remain: About (#about), Capabilities (#capabilities),
- * Journal Preview (#journal — conditional), and Contact CTA (#contact).
+ * Slice 7A: Hero + SelectedWork.
+ * Slice 7B: About + Capabilities + JournalPreview (conditional) + ContactCTA + JsonLd.
  */
 
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
+import { About } from '@/components/home/About';
+import { Capabilities } from '@/components/home/Capabilities';
+import { ContactCTA } from '@/components/home/ContactCTA';
 import { Hero } from '@/components/home/Hero';
+import { JournalPreview } from '@/components/home/JournalPreview';
 import { SelectedWork } from '@/components/home/SelectedWork';
+import { PersonJsonLd } from '@/components/seo/PersonJsonLd';
+import { WebSiteJsonLd } from '@/components/seo/WebSiteJsonLd';
+import { journalEnabled } from '@/lib/content/journal-enabled';
 import { buildMetadata } from '@/lib/seo/metadata';
 
 type Props = {
@@ -44,8 +51,20 @@ export default async function HomePage({ params }: Props) {
   // [design §5] Enable static rendering for this locale.
   setRequestLocale(locale);
 
+  // [spec 1.11] Journal gating — auto-detected at build time from velite collection.
+  // JournalPreview is absent from DOM entirely when false [spec 1.11].
+  const isJournalEnabled = journalEnabled();
+
   return (
     <>
+      {/*
+       * [spec 9.4] JSON-LD structured data — Person + WebSite schemas.
+       * Server components; rendered into <head> by Next.js.
+       * [spec 9.3] Scenario: @type: "Person", jobTitle: "Senior Full-Stack Engineer".
+       */}
+      <PersonJsonLd locale={locale as 'es' | 'en'} />
+      <WebSiteJsonLd locale={locale as 'es' | 'en'} />
+
       {/*
        * [spec 1.2] Hero — landing section. Full name, headline, metrics, CTA → #contact.
        * [task §7A.1] Implemented by <Hero> [S] wrapping <HeroReveal> [C].
@@ -60,41 +79,34 @@ export default async function HomePage({ params }: Props) {
       <SelectedWork locale={locale} />
 
       {/*
-       * Slice 7B stubs — real content implemented in Slice 7B.
-       * IDs are required for Header scroll-spy [spec 1.13] and nav links.
-       * [spec 8.5] Semantic <section> elements with meaningful min-height
-       * so IntersectionObserver has visible targets during development.
+       * [spec 1.9] About — professional narrative, hardware → frontend arc.
+       * [task §7B.1] Server Component. No skill bars, no ratings.
+       * id="about" provides scroll-spy anchor [spec 1.13].
        */}
-
-      {/* [spec 1.9] About section stub */}
-      <section
-        id="about"
-        aria-label="About"
-        style={{ minHeight: '100svh', borderTop: '1px solid var(--border)' }}
-      />
-
-      {/* [spec 1.10] Capabilities section stub */}
-      <section
-        id="capabilities"
-        aria-label="Capabilities"
-        style={{ minHeight: '60vh', borderTop: '1px solid var(--border)' }}
-      />
+      <About locale={locale} />
 
       {/*
-       * [spec 1.11] Journal Preview — conditionally rendered in Slice 7B.
-       * Stub anchor only; content gated by journal-enabled.ts build-time helper.
+       * [spec 1.10] Capabilities — 4 grouped skill categories, no levels.
+       * [task §7B.2] Server Component.
+       * id="capabilities" provides scroll-spy anchor [spec 1.13].
        */}
-      <section id="journal" aria-label="Journal preview" />
+      <Capabilities locale={locale} />
 
       {/*
-       * [spec 1.12] Contact CTA anchor — scroll target for in-page #contact links
-       * from header nav and Hero CTA. [spec 1.2] [design §3.3]
+       * [spec 1.11] Journal Preview — conditionally rendered.
+       * Only shown when at least one non-draft post exists in content/journal/.
+       * Section is COMPLETELY ABSENT from DOM when false — no empty placeholder.
+       * [task §7B.3] Caller (this page) guards with journalEnabled().
        */}
-      <section
-        id="contact"
-        aria-label="Contact"
-        style={{ minHeight: '50vh', borderTop: '1px solid var(--border)' }}
-      />
+      {isJournalEnabled && <JournalPreview locale={locale} />}
+
+      {/*
+       * [spec 1.12] Contact CTA — scroll target for #contact links.
+       * Hero CTA (href="#contact") and header nav ("Contact") both anchor here.
+       * Also entry point to the full contact form at /[locale]/contact.
+       * [task §7B.4] Server Component with MagneticButton CTA.
+       */}
+      <ContactCTA locale={locale} />
     </>
   );
 }

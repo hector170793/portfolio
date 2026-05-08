@@ -16,8 +16,10 @@ import { useEffect, useRef, useState } from 'react';
 import LocaleToggle from '@/components/LocaleToggle';
 import ThemeToggle from '@/components/ThemeToggle';
 
-// Section IDs that the scroll-spy tracks [spec 1.13]
-const SECTION_IDS = ['work', 'about', 'capabilities', 'contact'] as const;
+// Section IDs that the scroll-spy tracks [spec 1.13].
+// 'journal' is included: when the #journal section exists in the DOM (journalEnabled),
+// it will be found by getElementById and observed; when absent, it is simply skipped.
+const SECTION_IDS = ['work', 'about', 'capabilities', 'journal', 'contact'] as const;
 type SectionId = (typeof SECTION_IDS)[number];
 
 type Props = {
