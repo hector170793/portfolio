@@ -6,6 +6,7 @@
 
 import type { Metadata } from 'next';
 import type { Locale } from '@/lib/i18n/config';
+import { buildOgUrl, type OgParams } from '@/lib/seo/og';
 
 const SITE_URL = 'https://hector-reyes.work';
 
@@ -15,15 +16,15 @@ export interface BuildMetadataParams {
   description: string;
   /** Path segment after the locale prefix, e.g. '' for home, '/work/santander-onboarding' */
   path: string;
-  /** Query params passed to the /api/og edge route */
-  ogParams?: Record<string, string>;
+  /** Query params passed to the /api/og edge route [spec 9.2] */
+  ogParams?: OgParams;
 }
 
 /**
  * Factory that returns a Next.js Metadata object with:
- * - Absolute canonical URL
+ * - Absolute canonical URL [spec 9.8]
  * - Hreflang alternates for es, en, and x-default (→ en) [spec 5.7]
- * - OG image URL pointing to /api/og edge route [spec 9.2]
+ * - OG image URL pointing to /api/og edge route via buildOgUrl() [spec 9.2]
  * - Twitter card summary_large_image [spec 9.1]
  */
 export function buildMetadata({
@@ -39,13 +40,10 @@ export function buildMetadata({
   const esUrl = `${SITE_URL}/es${path}`;
   const enUrl = `${SITE_URL}/en${path}`;
 
-  // OG image URL — delegates to /api/og edge route [spec 9.2].
-  const ogSearchParams = new URLSearchParams({
-    title,
-    subtitle: description,
-    ...ogParams,
-  });
-  const ogImageUrl = `${SITE_URL}/api/og?${ogSearchParams.toString()}`;
+  // [spec 9.2] OG image URL — delegates to /api/og Edge route via buildOgUrl().
+  // Default OG params when none provided: use the page title + description as subtitle.
+  const resolvedOgParams: OgParams = ogParams ?? { title, subtitle: description };
+  const ogImageUrl = buildOgUrl(resolvedOgParams);
 
   return {
     title,
