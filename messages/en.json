@@ -85,6 +85,20 @@
       "heading": "Journal",
       "readingTime": "{minutes} min read"
     },
+    "signup": {
+      "title": "Get notified about new writing",
+      "placeholder": {
+        "email": "Email address",
+        "name": "First name (optional)"
+      },
+      "cta": "Notify me",
+      "confirm": "Done. Check your inbox to confirm your subscription.",
+      "duplicate": "You're already on the list.",
+      "error": "Something went wrong. Please try again."
+    },
+    "post": {
+      "readingTime": "{minutes} min read"
+    },
     "signupTitle": "Stay updated",
     "signupCta": "Get notified about new writing",
     "signupConfirm": "Done. Check your inbox to confirm.",

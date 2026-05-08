@@ -12,6 +12,7 @@
  */
 
 import { getTranslations } from 'next-intl/server';
+import { SignupForm } from '@/components/Newsletter/SignupForm';
 
 export default async function Footer() {
   const t = await getTranslations('footer');
@@ -56,12 +57,9 @@ export default async function Footer() {
             </ul>
           </nav>
 
-          {/* Right: newsletter signup placeholder slot [design §3.5] */}
-          {/* Real signup wired in Slice 9 (Newsletter/SignupForm.tsx) */}
-          <section aria-label={t('signupCta')}>
-            {/* Slice 9 will render <NewsletterSignupForm /> here */}
-            <p className="text-xs text-[var(--muted-foreground)]">{t('signupCta')}</p>
-          </section>
+          {/* Right: newsletter signup [spec 3.4] [design §3.5] — wired in Slice 9 */}
+          {/* [spec 3.4] variant="footer" uses compact single-line layout */}
+          <SignupForm variant="footer" />
         </div>
       </div>
     </footer>
