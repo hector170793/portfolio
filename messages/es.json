@@ -18,12 +18,22 @@
   },
   "hero": {
     "name": "Hector Reyes Pérez",
-    "headline": "Senior Full-Stack Engineer & Frontend Lead",
+    "headlineLegacy": "Senior Full-Stack Engineer & Frontend Lead",
+    "headlineLines": [
+      "Senior Full-Stack Engineer",
+      "& Frontend Lead —",
+      "entrega de producto fintech."
+    ],
     "subtitle": "Construyo productos digitales de alto impacto. Fintech, plataformas y desarrollo orientado a LATAM.",
-    "ctaPrimary": "Hablemos",
+    "ctaPrimary": "Mandame un brief",
     "metric1": "30k onboardings/mes, Santander",
     "metric2": "4 productos en producción",
-    "metric3": "+8 años de experiencia"
+    "metric3": "+8 años de experiencia",
+    "metrics": {
+      "1": { "value": "30K+", "label": "onboardings mensuales, Santander" },
+      "2": { "value": "10 años", "label": "entregando productos enterprise" },
+      "3": { "value": "ES · EN", "label": "remoto, UTC-6" }
+    }
   },
   "about": {
     "title": "Sobre mí",
@@ -106,5 +116,10 @@
       "outcome": "Resultados",
       "stack": "Stack"
     }
+  },
+  "work": {
+    "title": "Proyectos seleccionados",
+    "tagsSrLabel": "Tecnologías del proyecto",
+    "viewProject": "Ver proyecto"
   }
 }
