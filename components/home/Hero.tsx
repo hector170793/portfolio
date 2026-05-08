@@ -147,7 +147,7 @@ export async function Hero({ locale }: HeroProps) {
                   style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: '0.25rem',
+                    gap: '0.5rem',
                   }}
                 >
                   <span
@@ -164,10 +164,11 @@ export async function Hero({ locale }: HeroProps) {
                   <span
                     style={{
                       fontFamily: 'var(--font-body)',
-                      fontSize: 'var(--fs-small)',
-                      lineHeight: 'var(--lh-small)',
+                      fontSize: 'var(--fs-body)',
+                      lineHeight: 'var(--lh-body)',
+                      letterSpacing: '0.01em',
                       color: 'var(--muted-foreground)',
-                      maxWidth: '24ch',
+                      maxWidth: '22ch',
                     }}
                   >
                     {metric.label}
