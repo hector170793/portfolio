@@ -85,6 +85,20 @@
       "heading": "Blog",
       "readingTime": "{minutes} min de lectura"
     },
+    "signup": {
+      "title": "Recibí avisos de nuevos artículos",
+      "placeholder": {
+        "email": "Tu email",
+        "name": "Tu nombre (opcional)"
+      },
+      "cta": "Avisame",
+      "confirm": "Listo. Revisá tu bandeja de entrada para confirmar.",
+      "duplicate": "Ya estás en la lista.",
+      "error": "Algo salió mal. Por favor intentá de nuevo."
+    },
+    "post": {
+      "readingTime": "{minutes} min de lectura"
+    },
     "signupTitle": "Recibí novedades",
     "signupCta": "Recibí novedades sobre nuevos artículos",
     "signupConfirm": "Listo. Revisá tu bandeja de entrada para confirmar.",

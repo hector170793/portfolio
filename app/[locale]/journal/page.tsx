@@ -1,16 +1,17 @@
 /**
  * Journal index page — app/[locale]/journal/page.tsx
- * [spec 3.1] Always renders at /[locale]/journal, regardless of post count.
- * [spec 3.1] When no posts exist: renders empty-state UI (not a 404).
- * [spec 9.1] Exports generateMetadata.
- * [spec 3.5] Page is static (SSG).
- *
- * STUB: Real post listing and empty-state (with newsletter signup) in Slice 9.
- * For now: renders empty-state message when no posts, post count when posts exist.
+ * [spec 3.1] Always renders at /[locale]/journal regardless of post count (not a 404).
+ * [spec 3.2] Lists published posts by date desc when posts exist.
+ * [spec 3.4] Newsletter signup rendered in both empty-state and populated state.
+ * [spec 3.5] SSG — static at build time.
+ * [spec 9.1] Exports generateMetadata via buildMetadata factory.
+ * [design §8] SignupForm displayed at end of page always.
  */
 
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { SignupForm } from '@/components/Newsletter/SignupForm';
 import { buildMetadata } from '@/lib/seo/metadata';
 import { journal } from '../../../.velite';
 
@@ -39,47 +40,77 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function JournalIndexPage({ params }: Props) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'journal' });
 
   // [design §5] Enable static rendering for this locale.
   setRequestLocale(locale);
 
-  // Filter published posts for this locale.
-  const posts = journal.filter((p) => !p.draft && p.locale === locale);
+  const t = await getTranslations({ locale, namespace: 'journal' });
+
+  // Filter published posts for this locale, sorted date desc. [spec 3.2]
+  const posts = journal
+    .filter((p) => !p.draft && p.locale === locale)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return (
-    <section aria-labelledby="journal-heading" className="mx-auto max-w-2xl px-6 py-24">
-      <h1
-        id="journal-heading"
-        className="font-display text-[var(--fs-h1)] text-[var(--foreground)]"
-      >
-        {t('index.heading')}
-      </h1>
+    <main id="main-content">
+      <section aria-labelledby="journal-heading" className="mx-auto max-w-2xl px-6 py-24">
+        {/* [spec 8.5] h1 heading — appears exactly once on this page */}
+        <h1
+          id="journal-heading"
+          className="font-display text-[var(--fs-h1)] leading-tight text-[var(--foreground)]"
+        >
+          {t('index.heading')}
+        </h1>
 
-      {posts.length === 0 ? (
-        // [spec 3.1] Empty-state UI — no 404.
-        <div className="mt-12 space-y-4">
-          <p className="text-[var(--fs-h3)] font-display text-[var(--foreground)]">
-            {t('empty.title')}
-          </p>
-          <p className="text-[var(--muted-foreground)]">{t('empty.subtitle')}</p>
-          {/* Slice 9: <NewsletterSignupForm /> renders here */}
+        {posts.length === 0 ? (
+          // [spec 3.1] Empty-state UI — renders with HTTP 200, no 404.
+          <div className="mt-12 space-y-4">
+            <p className="font-display text-[var(--fs-h3)] text-[var(--foreground)]">
+              {t('empty.title')}
+            </p>
+            <p className="text-[var(--muted-foreground)]">{t('empty.subtitle')}</p>
+          </div>
+        ) : (
+          // [spec 3.2] Post list: title, date, excerpt, reading time, link.
+          <ol className="mt-12 space-y-10">
+            {posts.map((post) => (
+              <li key={`${post.slug}-${post.locale}`}>
+                <article aria-labelledby={`post-${post.slug}`}>
+                  <Link href={`/${locale}/journal/${post.slug}`} className="group block space-y-2">
+                    {/* Date + reading time meta */}
+                    <div className="flex items-center gap-3 text-xs text-[var(--muted-foreground)]">
+                      <time dateTime={post.date}>
+                        {new Date(post.date).toLocaleDateString(
+                          locale === 'es' ? 'es-MX' : 'en-US',
+                          { year: 'numeric', month: 'long', day: 'numeric' },
+                        )}
+                      </time>
+                      <span aria-hidden="true">·</span>
+                      <span>{t('index.readingTime', { minutes: post.readingTime })}</span>
+                    </div>
+
+                    {/* Title */}
+                    <h2
+                      id={`post-${post.slug}`}
+                      className="font-display text-[var(--fs-h2)] leading-snug text-[var(--foreground)] transition-colors group-hover:text-[var(--accent-text)]"
+                    >
+                      {post.title}
+                    </h2>
+
+                    {/* Excerpt */}
+                    <p className="text-[var(--muted-foreground)]">{post.summary}</p>
+                  </Link>
+                </article>
+              </li>
+            ))}
+          </ol>
+        )}
+
+        {/* [spec 3.4] Newsletter signup always rendered — both empty and populated states */}
+        <div className="mt-16 border-t border-[var(--border)] pt-12">
+          <SignupForm />
         </div>
-      ) : (
-        // [spec 3.2] Post list — full implementation in Slice 9.
-        <ul className="mt-12 space-y-8">
-          {posts.map((post) => (
-            <li key={post.slug}>
-              <article>
-                <h2 className="font-display text-[var(--fs-h2)] text-[var(--foreground)]">
-                  {post.title}
-                </h2>
-                <p className="mt-2 text-[var(--muted-foreground)]">{post.summary}</p>
-              </article>
-            </li>
-          ))}
-        </ul>
-      )}
-    </section>
+      </section>
+    </main>
   );
 }
