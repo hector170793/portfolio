@@ -146,7 +146,8 @@
       "validation": "Please review the form fields.",
       "turnstile": "Verification failed — please try again.",
       "send": "Failed to send. Please try again in a few minutes.",
-      "unknown": "An unexpected error occurred. Please try again."
+      "unknown": "An unexpected error occurred. Please try again.",
+      "verificationPending": "Waiting for security verification. Try again in a moment."
     }
   },
   "caseStudy": {
