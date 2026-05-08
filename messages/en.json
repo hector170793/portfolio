@@ -137,6 +137,8 @@
   },
   "caseStudy": {
     "nextProject": "Next project",
+    "keyOutcomes": "Key outcomes",
+    "stackList": "Stack",
     "chapters": {
       "brief": "Brief",
       "approach": "Approach",

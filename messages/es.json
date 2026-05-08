@@ -137,6 +137,8 @@
   },
   "caseStudy": {
     "nextProject": "Siguiente proyecto",
+    "keyOutcomes": "Resultados clave",
+    "stackList": "Stack utilizado",
     "chapters": {
       "brief": "Brief",
       "approach": "Enfoque",
