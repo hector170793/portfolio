@@ -165,6 +165,11 @@
   }
 }
 
+/* Pause marquee on hover — CSS-only, no JS. [spec 1.7] [design §12.5] */
+.marquee-wrapper:has(:hover) {
+  animation-play-state: paused;
+}
+
 /* ── View Transition: incoming snapshot uses circle-reveal ─── */
 ::view-transition-new(root) {
   animation: circle-reveal 480ms cubic-bezier(0.16, 1, 0.3, 1);
