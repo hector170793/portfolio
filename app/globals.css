@@ -19,8 +19,8 @@
     --muted: #1a1a1a; /* surface +1 */
     --muted-foreground: #9a9489; /* low-emphasis text — 4.62:1 on #0A0A0A */
     --border: #2a2724; /* hairlines — decorative only */
-    --accent-base: #1e47b8; /* cobalto signature — decorative [design §2.1] */
-    --accent-text: #4b7be6; /* cobalto AA-safe text on dark — 4.97:1 actual [design §2.1 corrected: #3D6BE0 was 4.13:1, not 6.51:1] */
+    --accent-base: #3d6be0; /* cobalto signature — brighter in dark for visual impact (was #1E47B8 — felt muted) */
+    --accent-text: #4b7be6; /* cobalto AA-safe text on dark — 4.97:1 actual [design §2.1 corrected: #3D6BE0 was 4.13:1 for text, not 6.51:1] */
     --accent-fg: #ffffff; /* fg on cobalto button */
     --grain-opacity: 0.05;
     --backdrop-blur: 12px;
