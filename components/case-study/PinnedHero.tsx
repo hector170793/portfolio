@@ -20,6 +20,13 @@ interface PinnedHeroProps {
   year: number;
   heroImage: string;
   tags?: string[];
+  /**
+   * Case study slug — used to set view-transition-name for shared element transition.
+   * [task 12.3] [spec 2.7] [design §3.2]
+   * Must match the `nextSlug` in the originating NextProject component so the browser
+   * can pair the two elements: next-project-{slug} ↔ next-project-{slug}.
+   */
+  slug?: string;
 }
 
 export function PinnedHero({
@@ -28,6 +35,7 @@ export function PinnedHero({
   year,
   heroImage,
   tags,
+  slug,
 }: PinnedHeroProps): React.ReactElement {
   const reducedMotion = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
@@ -74,6 +82,12 @@ export function PinnedHero({
     /*
      * [spec 8.5] Semantic <header> inside <article> — provides role context for hero.
      * min-height: 100dvh ensures the pinned section fills the viewport.
+     *
+     * [task 12.3] [spec 2.7] view-transition-name: next-project-{slug}
+     * Matches the name set by NextProject.tsx so the browser can pair source → destination
+     * for the shared element transition (card/anchor → full-screen hero). [design §3.2]
+     * Uses the same `next-project-{slug}` convention (not a separate `case-hero-{slug}`)
+     * so no disambiguation is needed — one pair name per case study.
      */
     <header
       ref={sectionRef}
@@ -84,6 +98,9 @@ export function PinnedHero({
         gridTemplateRows: 'auto 1fr',
         backgroundColor: 'var(--background)',
         overflow: 'hidden',
+        // view-transition-name pairs with NextProject's `next-project-{slug}` anchor.
+        // Only set when slug is provided (avoids duplicate names across pages). [spec 2.7]
+        ...(slug ? { viewTransitionName: `next-project-${slug}` } : {}),
       }}
     >
       {/* Meta bar — client + year + tags */}

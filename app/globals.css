@@ -171,9 +171,27 @@
 }
 
 /* ── View Transition: incoming snapshot uses circle-reveal ─── */
+/* Used by ThemeToggle for the circle-expand animation. [design §4.4] [spec 6.6] */
 ::view-transition-new(root) {
   animation: circle-reveal 480ms cubic-bezier(0.16, 1, 0.3, 1);
   clip-path: circle(0 at var(--vt-x) var(--vt-y));
+}
+
+/*
+ * Suppress the outgoing root snapshot crossfade for ALL View Transitions.
+ * [task 12.2] [design §3.2] [spec 7.4.D.1]
+ *
+ * Rationale: Two VT contexts exist:
+ *   1. Theme toggle — new snapshot expands via circle-reveal; old stays put (desired). ✅
+ *   2. NextProject shared element navigation — root crossfade would fight the FM
+ *      AnimatePresence curtain (z:20). Suppressing old(root) prevents double animation.
+ *
+ * The named `next-project-{slug}` / `case-hero-{slug}` groups animate independently.
+ * mix-blend-mode: normal prevents any unintended compositing on the frozen old snapshot.
+ */
+::view-transition-old(root) {
+  animation: none;
+  mix-blend-mode: normal;
 }
 
 /* ── Reduced motion: disable all view transitions [spec 7.7] ─ */

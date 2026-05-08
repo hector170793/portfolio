@@ -161,12 +161,19 @@ export default async function WorkPage({ params }: Props) {
          * [design §3.2] pin:true, start:'top top', end:'+=100%', anticipatePin:1.
          * Tags passed from frontmatter.
          */}
+        {/*
+         * [task 12.3] slug passed so PinnedHero can set view-transition-name:
+         * next-project-{slug} — matching the NextProject anchor on the previous page.
+         * This enables the shared element transition (card expands → full-screen hero).
+         * [spec 2.7] [design §3.2]
+         */}
         <PinnedHero
           title={entry.title}
           client={entry.client}
           year={entry.year}
           heroImage={heroImageUrl}
           tags={entry.tags}
+          slug={slug}
         />
 
         {/*
