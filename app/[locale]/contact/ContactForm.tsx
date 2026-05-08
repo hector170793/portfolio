@@ -255,25 +255,46 @@ export function ContactForm() {
         Widget is not visible to the user. onSuccess fires once the token is ready.
         We store it in the RHF form state via setValue('turnstileToken', token).
       */}
+      {/*
+        [design §7.5] Invisible mode:
+        - appearance: 'execute'  → widget is visually hidden
+        - execution: 'render'    → challenge runs automatically on mount,
+                                   token populated via onSuccess BEFORE the
+                                   user clicks submit. (`execution:'execute'`
+                                   requires manually calling .execute() —
+                                   that pattern silently breaks validation
+                                   if you forget.)
+      */}
       <Turnstile
         ref={turnstileRef}
         siteKey={TURNSTILE_SITE_KEY}
         options={{
-          // [design §7.5] Invisible mode: appearance="execute" + execution="execute".
-          // Widget is not visible; token is fetched automatically on render.
           appearance: 'execute',
-          execution: 'execute',
+          execution: 'render',
         }}
         onSuccess={(token) => {
-          setValue('turnstileToken', token, { shouldValidate: false });
+          setValue('turnstileToken', token, { shouldValidate: true });
         }}
         onExpire={() => {
           setValue('turnstileToken', '', { shouldValidate: false });
+          turnstileRef.current?.reset();
         }}
         onError={() => {
           setValue('turnstileToken', '', { shouldValidate: false });
         }}
       />
+
+      {/*
+        Turnstile token validation surfaces here if the user hits submit
+        before the token is ready (rare with execution='render'). Without
+        this fallback, validation fails silently because turnstileToken is
+        a hidden field and has no inline error UI.
+      */}
+      {errors.turnstileToken && (
+        <p role="alert" className="text-xs text-[var(--accent-text)]">
+          {t('errors.verificationPending')}
+        </p>
+      )}
 
       {/* ── Submit button ────────────────────────────────────────────────────── */}
       <button

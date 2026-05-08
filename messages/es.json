@@ -146,7 +146,8 @@
       "validation": "Revisá los campos del formulario.",
       "turnstile": "Verificación fallida. Por favor intentá de nuevo.",
       "send": "Error al enviar. Intentá de nuevo en unos minutos.",
-      "unknown": "Ocurrió un error inesperado. Por favor intentá de nuevo."
+      "unknown": "Ocurrió un error inesperado. Por favor intentá de nuevo.",
+      "verificationPending": "Esperando verificación de seguridad. Intentá de nuevo en un segundo."
     }
   },
   "caseStudy": {
